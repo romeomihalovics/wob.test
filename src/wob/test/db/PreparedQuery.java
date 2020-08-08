@@ -3,7 +3,7 @@ package wob.test.db;
 import java.sql.PreparedStatement;
 
 public class PreparedQuery {
-    private String preparedQuery;
+    private final String preparedQuery;
     private PreparedStatement preparedStatement;
 
     public PreparedQuery(String preparedQuery) {

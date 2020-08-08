@@ -1,7 +1,7 @@
 package wob.test.db;
 
 import org.json.JSONArray;
-import wob.test.wobTest;
+import wob.test.WobTest;
 
 import java.io.FileReader;
 import java.sql.*;
@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class Database {
     private Connection connection;
-    private static Map<String, PreparedQuery> preparedStatements = new HashMap<>();
+    private static final Map<String, PreparedQuery> preparedStatements = new HashMap<>();
 
     public Database() {
         preparedStatements.put("emptyListings", new PreparedQuery("TRUNCATE TABLE `listing`;"));
@@ -61,10 +61,10 @@ public class Database {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            Properties dbconfig = new Properties();
-            dbconfig.load(new FileReader(wobTest.dbconfig));
+            Properties dbConfig = new Properties();
+            dbConfig.load(new FileReader(WobTest.dbConfig));
 
-            connection = DriverManager.getConnection(dbconfig.getProperty("url"), dbconfig);
+            connection = DriverManager.getConnection(dbConfig.getProperty("url"), dbConfig);
         }catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -148,8 +148,8 @@ public class Database {
     }
 
     @SuppressWarnings("rawtypes")
-    public List<List> getTotalListings(int year, int month) throws SQLException {
-        List<List> total_query_results;
+    public List<Object> getTotalListings(int year, int month) throws SQLException {
+        List<Object> total_query_results;
         if(year == 0) {
             total_query_results = runQuery("getTotalListing");
         } else {
@@ -162,8 +162,8 @@ public class Database {
     }
 
     @SuppressWarnings("rawtypes")
-    public List<List> getTotalEbayListings(int year, int month) throws SQLException {
-        List<List> ebay_query_results;
+    public List<Object> getTotalEbayListings(int year, int month) throws SQLException {
+        List<Object> ebay_query_results;
         if(year == 0) {
             ebay_query_results = runQuery("getEbayReport");
         } else {
@@ -176,8 +176,8 @@ public class Database {
     }
 
     @SuppressWarnings("rawtypes")
-    public List<List> getTotalAmazonListings(int year, int month) throws SQLException {
-        List<List> amazon_query_results;
+    public List<Object> getTotalAmazonListings(int year, int month) throws SQLException {
+        List<Object> amazon_query_results;
         if(year == 0) {
             amazon_query_results = runQuery("getAmazonReport");
         } else {
@@ -190,8 +190,8 @@ public class Database {
     }
 
     @SuppressWarnings("rawtypes")
-    public List<List> getBestLister(int year, int month) throws SQLException {
-        List<List> best_query_results;
+    public List<Object> getBestLister(int year, int month) throws SQLException {
+        List<Object> best_query_results;
         if(year == 0) {
             best_query_results = runQuery("getBestLister");
         } else {
@@ -204,39 +204,36 @@ public class Database {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<List> runQuery(String preparedQueryName) {
+    public List<Object> runQuery(String preparedQueryName) {
         PreparedQuery preparedQuery = preparedStatements.get(preparedQueryName);
         String queryString = preparedQuery.getPreparedQuery();
 
         init();
-        List<List> backArray = null;
+        List<Object> backArray = null;
 
         try {
-            ResultSet rs;
+            ResultSet resultSet;
 
             if (queryString.toLowerCase().startsWith("update") || queryString.toLowerCase().startsWith("insert")
                     || queryString.toLowerCase().startsWith("delete") || queryString.toLowerCase().startsWith("truncate"))
                 preparedQuery.getPreparedStatement().executeUpdate();
             else
                 preparedQuery.getPreparedStatement().execute();
-                rs = preparedQuery.getPreparedStatement().getResultSet();
+                resultSet = preparedQuery.getPreparedStatement().getResultSet();
 
             preparedQuery.getPreparedStatement().clearParameters();
 
-            if (rs != null) {
-                ResultSetMetaData metaData = rs.getMetaData();
+            if (resultSet != null) {
+                ResultSetMetaData metaData = resultSet.getMetaData();
 
                 backArray = new ArrayList<>();
-                for (int i = 0; i < metaData.getColumnCount(); i++) {
-                    backArray.add(new ArrayList<ArrayList>());
-                }
-
-                while (rs.next()) {
+                while(resultSet.next()) {
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                        backArray.get(i - 1).add(rs.getObject(i));
+                        backArray.add(resultSet.getObject(i));
                     }
                 }
-                rs.close();
+
+                resultSet.close();
             }
         } catch (SQLException e) {
             System.out.println("Error: "+e);

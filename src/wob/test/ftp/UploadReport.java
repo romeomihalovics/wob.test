@@ -2,25 +2,21 @@ package wob.test.ftp;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import wob.test.wobTest;
+import wob.test.WobTest;
 
 import java.io.*;
 import java.util.Properties;
 
 public class UploadReport {
-    private FTPClient client = new FTPClient();
-
-    public UploadReport() {
-        init();
-    }
+    private final FTPClient client = new FTPClient();
 
     private void init() {
         try {
-            Properties ftpconfig = new Properties();
-            ftpconfig.load(new FileReader(wobTest.ftpconfig));
+            Properties ftpConfig = new Properties();
+            ftpConfig.load(new FileReader(WobTest.ftpConfig));
 
-            client.connect(ftpconfig.getProperty("url"));
-            client.login(ftpconfig.getProperty("user"), ftpconfig.getProperty("password"));
+            client.connect(ftpConfig.getProperty("url"));
+            client.login(ftpConfig.getProperty("user"), ftpConfig.getProperty("password"));
             client.enterLocalPassiveMode();
             client.setFileType(FTP.BINARY_FILE_TYPE);
         } catch (IOException e) {
@@ -29,6 +25,7 @@ public class UploadReport {
     }
 
     public void uploadReport() {
+        init();
         try {
             System.out.print("\r Uploading Report File");
             File reportFile = new File("report.json");

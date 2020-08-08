@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 
-public class wobTest {
+public class WobTest {
 
-    public static final String dbconfig = "database.cfg";
-    public static final String ftpconfig = "ftp.cfg";
+    public static final String dbConfig = "database.cfg";
+    public static final String ftpConfig = "ftp.cfg";
 
     public static Database database = new Database();
     public static SyncApi syncApi = new SyncApi();

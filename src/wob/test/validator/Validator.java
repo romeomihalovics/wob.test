@@ -10,7 +10,7 @@ public class Validator {
     @SuppressWarnings("BusyWait")
     public HashMap<String, JSONArray> validateListings(JSONArray data) throws InterruptedException {
         HashMap<String, JSONArray> results = new HashMap<>();
-        JSONArray valids = new JSONArray();
+        JSONArray validArray = new JSONArray();
         JSONArray invalids = new JSONArray();
 
         for (int i = 0; i < data.length(); i++) {
@@ -31,7 +31,7 @@ public class Validator {
                 invalidFields.add("description");
                 valid = false;
             }
-            if(data.getJSONObject(i).get("upload_time").toString().isEmpty() || data.getJSONObject(i).get("upload_time").equals(null)){
+            if(data.getJSONObject(i).get("upload_time").toString().equals("null") || data.getJSONObject(i).get("upload_time").toString().isEmpty()){
                 invalidFields.add("upload_time");
                 valid = false;
             }
@@ -65,14 +65,14 @@ public class Validator {
             }
 
             if(valid) {
-                valids.put(data.getJSONObject(i));
+                validArray.put(data.getJSONObject(i));
             }else{
                 data.getJSONObject(i).put("invalidFields", invalidFields.toString());
                 invalids.put(data.getJSONObject(i));
             }
         }
 
-        results.put("valid", valids);
+        results.put("valid", validArray);
         results.put("invalid", invalids);
 
         return results;
