@@ -1,19 +1,20 @@
 package wob.test.validator;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Validator {
-    public HashMap<String, ArrayList<JSONObject>> validateListings(JSONArray data) {
-        HashMap<String, ArrayList<JSONObject>> results = new HashMap<>();
-        ArrayList<JSONObject> valids = new ArrayList<>();
-        ArrayList<JSONObject> invalids = new ArrayList<>();
+    public HashMap<String, JSONArray> validateListings(JSONArray data) throws InterruptedException {
+        HashMap<String, JSONArray> results = new HashMap<>();
+        JSONArray valids = new JSONArray();
+        JSONArray invalids = new JSONArray();
 
         for (int i = 0; i < data.length(); i++) {
+            System.out.printf("\r Validating Listings: %.2f %% ( %d / %d )", (double) i / data.length() * 100, i, data.length());
+            Thread.sleep(20);
             boolean valid = true;
             ArrayList<String> invalidFields = new ArrayList<>();
 
@@ -29,7 +30,7 @@ public class Validator {
                 invalidFields.add("description");
                 valid = false;
             }
-            if(data.getJSONObject(i).get("upload_time").toString().isEmpty() || data.getJSONObject(i).get("upload_time") == null){
+            if(data.getJSONObject(i).get("upload_time").toString().isEmpty() || data.getJSONObject(i).get("upload_time").equals(null)){
                 invalidFields.add("upload_time");
                 valid = false;
             }
@@ -63,10 +64,10 @@ public class Validator {
             }
 
             if(valid) {
-                valids.add(data.getJSONObject(i));
+                valids.put(data.getJSONObject(i));
             }else{
                 data.getJSONObject(i).put("invalidFields", invalidFields.toString());
-                invalids.add(data.getJSONObject(i));
+                invalids.put(data.getJSONObject(i));
             }
         }
 
