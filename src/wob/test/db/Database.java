@@ -70,6 +70,7 @@ public class Database {
         }
     }
 
+    @SuppressWarnings("BusyWait")
     public void uploadListings(HashMap<String, JSONArray> data) throws SQLException, ParseException, InterruptedException {
         runQuery("foreignKeyChecksOff");
         runQuery("emptyListings");
@@ -95,6 +96,7 @@ public class Database {
         runQuery("foreignKeyChecksOn");
     }
 
+    @SuppressWarnings("BusyWait")
     public void uploadLocations(JSONArray data) throws SQLException, InterruptedException {
         runQuery("foreignKeyChecksOff");
         runQuery("emptyLocations");
@@ -115,6 +117,7 @@ public class Database {
         }
     }
 
+    @SuppressWarnings("BusyWait")
     public void uploadListingStats(JSONArray data) throws SQLException, InterruptedException {
         runQuery("foreignKeyChecksOff");
         runQuery("emptyListingStats");
@@ -129,6 +132,7 @@ public class Database {
         }
     }
 
+    @SuppressWarnings("BusyWait")
     public void uploadMarketplaces(JSONArray data) throws SQLException, InterruptedException {
         runQuery("foreignKeyChecksOff");
         runQuery("emptyMarketplaces");
@@ -208,7 +212,7 @@ public class Database {
         List<List> backArray = null;
 
         try {
-            ResultSet rs = null;
+            ResultSet rs;
 
             if (queryString.toLowerCase().startsWith("update") || queryString.toLowerCase().startsWith("insert")
                     || queryString.toLowerCase().startsWith("delete") || queryString.toLowerCase().startsWith("truncate"))

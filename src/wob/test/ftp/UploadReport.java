@@ -28,7 +28,7 @@ public class UploadReport {
         }
     }
 
-    public void uploadReport() throws IOException {
+    public void uploadReport() {
         try {
             System.out.print("\r Uploading Report File");
             File reportFile = new File("report.json");

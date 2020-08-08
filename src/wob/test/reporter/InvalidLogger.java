@@ -2,11 +2,13 @@ package wob.test.reporter;
 
 import org.json.JSONArray;
 
-import java.io.*;
-
-import static jdk.nashorn.internal.objects.NativeMath.round;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class InvalidLogger {
+    @SuppressWarnings("BusyWait")
     public void logInvalid(JSONArray data) throws IOException, InterruptedException {
         PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("importLog.csv", false)));
         writer.println("ListingId;MarketplaceName;InvalidField");

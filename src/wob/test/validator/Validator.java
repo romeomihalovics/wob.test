@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Validator {
+    @SuppressWarnings("BusyWait")
     public HashMap<String, JSONArray> validateListings(JSONArray data) throws InterruptedException {
         HashMap<String, JSONArray> results = new HashMap<>();
         JSONArray valids = new JSONArray();

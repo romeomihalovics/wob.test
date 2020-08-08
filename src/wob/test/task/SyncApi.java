@@ -13,7 +13,7 @@ public class SyncApi {
 
     public void sync() throws IOException, SQLException, ParseException, InterruptedException {
 
-        HashMap<String, JSONArray> listingValidated = new HashMap<>();
+        HashMap<String, JSONArray> listingValidated;
 
 
         JSONArray listingRaw = Parser.readJsonFromUrl("https://my.api.mockaroo.com/listing?key=63304c70");
