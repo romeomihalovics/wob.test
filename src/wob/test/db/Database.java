@@ -147,7 +147,6 @@ public class Database {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public List<Object> getTotalListings(int year, int month) throws SQLException {
         List<Object> total_query_results;
         if(year == 0) {
@@ -161,7 +160,6 @@ public class Database {
         return total_query_results;
     }
 
-    @SuppressWarnings("rawtypes")
     public List<Object> getTotalEbayListings(int year, int month) throws SQLException {
         List<Object> ebay_query_results;
         if(year == 0) {
@@ -175,7 +173,6 @@ public class Database {
         return ebay_query_results;
     }
 
-    @SuppressWarnings("rawtypes")
     public List<Object> getTotalAmazonListings(int year, int month) throws SQLException {
         List<Object> amazon_query_results;
         if(year == 0) {
@@ -189,7 +186,6 @@ public class Database {
         return amazon_query_results;
     }
 
-    @SuppressWarnings("rawtypes")
     public List<Object> getBestLister(int year, int month) throws SQLException {
         List<Object> best_query_results;
         if(year == 0) {
@@ -203,7 +199,6 @@ public class Database {
         return best_query_results;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<Object> runQuery(String preparedQueryName) {
         PreparedQuery preparedQuery = preparedStatements.get(preparedQueryName);
         String queryString = preparedQuery.getPreparedQuery();
